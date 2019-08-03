@@ -1,4 +1,4 @@
-const recipes = getSavedRecipes()
+let recipes = getSavedRecipes()
 const recipeId = location.hash.substring(1)
 // Get object by using id
 const getRecipeById = (recipeId) => {
@@ -9,10 +9,16 @@ const getRecipeById = (recipeId) => {
 }
 
 // const ingredient = getIngredientById()
-const recipe = getRecipeById(recipeId)
+let recipe = getRecipeById(recipeId)
 const ingredients = recipe.ingredients
 const titleElement = document.querySelector('#title')
 const bodyElement = document.querySelector('#body')
+const removeButton = document.querySelector('#removeButton')
+
+
+initializeEditPage(recipeId)
+renderIngredients(recipeId)
+console.log(ingredients)
 
 // Set title to recipe
 titleElement.addEventListener('input', (e) => {
@@ -32,14 +38,23 @@ bodyElement.addEventListener('input', (e) => {
 // click => search id of clicked stuff
 
 document.querySelector('#new-ingredient').addEventListener('click', () => {
-    if (document.querySelector('#input').value.length > 0) {
+    if (document.querySelector('#inputIngredient').value.length > 0) {
         addIngredient(recipeId)
-        ingredients[ingredients.length - 1].name = document.querySelector('#input').value
+        ingredients[ingredients.length - 1].text = document.querySelector('#inputIngredient').value
         saveRecipe()
     }
     renderIngredients(recipeId)
-    document.querySelector('#input').value = ''
+    document.querySelector('#inputIngredient').value = ''
 })
 
-console.log(ingredients)
-renderIngredients(recipeId)
+removeButton.addEventListener('click', () => {
+    removeRecipe(recipe.id)
+})
+
+window.addEventListener('storage', (e) => {
+    if (e.key === 'recipes') {
+        recipes = JSON.parse(e.newValue)
+        initializeEditPage(recipeId)
+    }
+})
+

@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+        <title>Recipe App</title>
+        <link href="styles.css" rel="stylesheet">
+    </head>
     <body>
+        <a href="/index.html">
+            <h1>Recipe App</h1>
+        </a>
         <a href="index.html">This is edit page!</a>
         <p>
             <label>
                 Title <input id="title" type="text">
             </label>
             <label>
-                Body <input id="body" type="text">
+                Body <textarea id="body"></textarea>
             </label>
         </p>
         <h2>Ingredients</h2>
         <div id="ingredients"></div>
-        <input id="input" type="text" placeholder="Add ingredients">
+        <input id="inputIngredient" type="text" placeholder="Add ingredients">
         <button id="new-ingredient">Button</button>
         <h2>Danger zone</h2>
-        <button>Delete recipe</button>
+        <button id="removeButton">Delete recipe</button>
         <script src="functions.js"></script>
         <script src="edit-app.js"></script>
     </body>

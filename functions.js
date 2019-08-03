@@ -49,11 +49,24 @@ const addIngredient = (recipeId) => {
     console.log(recipe.ingredients)
 
     recipe.ingredients.push({
-        name: '',
-        id: ingredientId
+        text: '',
+        id: ingredientId,
+        youhave: false
     })
     saveRecipe()
     console.log(recipe.ingredients)
+}
+
+const removeRecipe = (id) => {
+    const recipeIndex = recipes.findIndex((recipe) => {
+        return recipe.id === id
+    })
+
+    if (recipeIndex > -1) {
+        recipes.splice(recipeIndex, 1)
+        location.assign('index.html')
+        saveRecipe()
+    }
 }
 
 // Generate the DOM structure for a recipe
@@ -102,33 +115,47 @@ const saveRecipe = () => {
     localStorage.setItem('recipes', JSON.stringify(recipes))
 }
 
-
-const generateIngredientDOM = (ingredient) => {
+// Set up the ingredient DOM 
+const generateIngredientDOM = (ingredient, recipe) => {
     const container = document.createElement('div')
     const label = document.createElement('label')
     const checkbox = document.createElement('input')
     const ingredientEl = document.createElement('span')
     const removeButton = document.createElement('button')
 
-    container.appendChild(label)
-
-    container.appendChild(removeButton)
-    removeButton.textContent = 'x'
-
+    // Set ingredient checkbox
+    checkbox.setAttribute('type', 'checkbox')
+    checkbox.checked = ingredient.youhave
+    console.log(checkbox.checked)
     label.appendChild(checkbox)
-    checkbox.type = 'checkbox'
+    checkbox.addEventListener('change', () => {
+        toggleIngredient(ingredient.text, recipe.id)
+        renderIngredients(recipe.id)
+    })
+
+    container.appendChild(label)
 
     label.appendChild(ingredientEl)
 
-    if (ingredient.name.length > 0) {
-        ingredientEl.textContent = ingredient.name
+    if (ingredient.text.length > 0) {
+        ingredientEl.textContent = ingredient.text
     } else {
         ingredientEl.textContent = 'Unnamed'
     }
+    
+    // Setup the remove button for ingredient
+    removeButton.textContent = 'x'
+    container.appendChild(removeButton)
+    removeButton.addEventListener('click', () => {
+        removeIngredient(ingredient.text, recipe.id)
+        renderIngredients(recipe.id)
+    })
+
 
     return container
 }
 
+// Rendering application ingredients
 const renderIngredients = (recipeId) => {
     const ingredientsEl = document.querySelector('#ingredients')
 
@@ -140,13 +167,60 @@ const renderIngredients = (recipeId) => {
     ingredientsEl.innerHTML = ''
 
     ingredients.forEach((ingredient) => {
-        const container = generateIngredientDOM(ingredient)
+        const container = generateIngredientDOM(ingredient, recipe)
         ingredientsEl.appendChild(container)
     })
 }
 
-// const getIngredientById = (ingredientId) => {
-//     ingredients.find((ingredient) => {
-//         return ingredient.id === ingredientId
-//     })
-// }
+// Setup the remove functionality
+const removeIngredient = (text, recipeId) => {
+    const recipe = recipes.find((recipe) => {
+        return recipe.id === recipeId
+    })
+
+    const ingredients = recipe.ingredients
+
+    const ingredientIndex = ingredients.findIndex((ingredient) => {
+        return ingredient.text === text
+    })
+
+    if (ingredientIndex > -1) {
+        ingredients.splice(ingredientIndex, 1)
+        saveRecipe()
+    }
+}
+
+// Set up the toggle for checkbox functionality
+const toggleIngredient = (text, recipeId) => {
+    const recipe = recipes.find((recipe) => {
+        return recipe.id === recipeId
+    })
+
+    const ingredients = recipe.ingredients
+
+    const ingredient = ingredients.find((ingredient) => {
+        return ingredient.text === text
+    })
+
+    if (ingredient) {
+        ingredient.youhave = !ingredient.youhave
+        saveRecipe()
+    }
+}
+
+// Initialization functionality for edit page
+const initializeEditPage = (recipeId) => {
+    const getRecipeById = (recipeId) => {
+        const recipe = recipes.find((recipe) => {
+        return recipeId === recipe.id
+        })
+        return recipe
+    }
+    const recipe = getRecipeById(recipeId)
+    const titleElement = document.querySelector('#title')
+    const bodyElement = document.querySelector('#body')
+
+    titleElement.value = recipe.title
+    bodyElement.value = recipe.body
+    renderIngredients(recipeId)
+}
