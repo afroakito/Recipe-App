@@ -3,18 +3,24 @@
     <head>
         <title>Recipe App</title>
         <link href="styles.css" rel="stylesheet">
+
+        <!-- Google Web Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet">
     </head>
     <body>
-        <a href="/index.html">
-            <h1>Recipe App</h1>
-        </a>
-        <input type="text" placeholder="Search">
-        <div id="recipes"></div>
-        <p>
-            <button id="new-recipe">Add Recipe</button>
-        </p>
-        <script src="uuidv4.js"></script>
-        <script src="functions.js"></script>
-        <script src="recipe-app.js"></script>
+        <div class="container">
+            <a href="/index.html">
+                <h1 class="container__site-name">Recipe App</h1>
+            </a>
+            <input id="filter" class="container__search-box" type="text" placeholder="Search">
+            <div id="recipes">
+            </div>
+            <p>
+                <button id="new-recipe">Add Recipe</button>
+            </p>
+            <script src="uuidv4.js"></script>
+            <script src="functions.js"></script>
+            <script src="recipe-app.js"></script>
+        </div>
     </body>
 </html>

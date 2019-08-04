@@ -71,10 +71,12 @@ const removeRecipe = (id) => {
 
 // Generate the DOM structure for a recipe
 const generateRecipeDOM = (recipe) => {
-    const recipeEl = document.createElement('p')
-    recipeEl.classList.add('recipe-card')
-    const bodyTextEl = document.createElement('a')
-    const titleTextEl = document.createElement('a')
+    const recipeEl = document.createElement('a')
+    recipeEl.classList.add('container__recipe-card')
+    const bodyTextEl = document.createElement('p')
+    bodyTextEl.classList.add('recipe-card__card-body')
+    const titleTextEl = document.createElement('p')
+    titleTextEl.classList.add('recipe-card__card-title')
 
     // Setup the recipe title text
     if (recipe.title.length > 0) {
@@ -93,7 +95,7 @@ const generateRecipeDOM = (recipe) => {
     recipeEl.appendChild(bodyTextEl)
 
     // Setup the link
-    titleTextEl.setAttribute('href', `/edit.html#${recipe.id}`)
+    recipeEl.setAttribute('href', `/edit.html#${recipe.id}`)
 
     return recipeEl
 }
@@ -115,13 +117,21 @@ const saveRecipe = () => {
     localStorage.setItem('recipes', JSON.stringify(recipes))
 }
 
+const filterRecipes = (text) => {
+    return recipes.filter((recipe) => {
+        return recipe.title.toLowerCase().replace(/\s+/g, '').includes(text.toLowerCase())
+    })
+}
+
 // Set up the ingredient DOM 
 const generateIngredientDOM = (ingredient, recipe) => {
     const container = document.createElement('div')
     const label = document.createElement('label')
     const checkbox = document.createElement('input')
     const ingredientEl = document.createElement('span')
-    const removeButton = document.createElement('button')
+    const removeButton = document.createElement('a')
+
+    ingredientEl.classList.add('ingredient')
 
     // Set ingredient checkbox
     checkbox.setAttribute('type', 'checkbox')
@@ -144,7 +154,8 @@ const generateIngredientDOM = (ingredient, recipe) => {
     }
     
     // Setup the remove button for ingredient
-    removeButton.textContent = 'x'
+    removeButton.textContent = 'remove'
+    removeButton.classList.add('removeIngredient')
     container.appendChild(removeButton)
     removeButton.addEventListener('click', () => {
         removeIngredient(ingredient.text, recipe.id)

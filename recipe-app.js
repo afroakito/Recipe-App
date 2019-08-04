@@ -2,6 +2,10 @@
 
 let recipes = []
 
+const filters = {
+    searchText: ''
+}
+
 
 document.querySelector('#new-recipe').addEventListener('click', () => {
     const id = createRecipe()
@@ -9,7 +13,18 @@ document.querySelector('#new-recipe').addEventListener('click', () => {
     console.log(recipes)
 })
 
-
+// Filtering recipes
+const search = document.querySelector('#filter')
+search.addEventListener('input', (e) => {
+    filters.searchText = e.target.value
+    if (filters.searchText.trim().length > 0) {
+        const filteredRecipes = filterRecipes(filters.searchText.replace(/\s+/g, ''))
+        console.log(filters.searchText)
+        renderRecipes(filteredRecipes)
+    } else {
+        renderRecipes(recipes)
+    }
+})
 
 recipes = getSavedRecipes()
 renderRecipes(recipes)

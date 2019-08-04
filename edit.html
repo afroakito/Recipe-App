@@ -3,26 +3,31 @@
     <head>
         <title>Recipe App</title>
         <link href="styles.css" rel="stylesheet">
+
+        <!-- Google Web Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet">
     </head>
     <body>
-        <a href="/index.html">
-            <h1>Recipe App</h1>
-        </a>
-        <a href="index.html">This is edit page!</a>
-        <p>
-            <label>
-                Title <input id="title" type="text">
-            </label>
-            <label>
-                Body <textarea id="body"></textarea>
-            </label>
-        </p>
-        <h2>Ingredients</h2>
-        <div id="ingredients"></div>
-        <input id="inputIngredient" type="text" placeholder="Add ingredients">
-        <button id="new-ingredient">Button</button>
-        <h2>Danger zone</h2>
-        <button id="removeButton">Delete recipe</button>
+        <div class="container">
+            <a href="/index.html">
+                <h1 class="container__site-name">Recipe App</h1>
+            </a>
+            <p>
+                <input class="container__edit-title" id="title" type="text">
+                <textarea class="container__edit-body" id="body"></textarea>
+            </p>
+            <div class="ingredients-wrap">
+                <h2>Ingredients</h2>
+                <div id="ingredients">
+                </div>
+                <input id="inputIngredient" type="text" placeholder="Add ingredients">
+                <button id="new-ingredient">Button</button>
+            </div>
+            <div class="danger">
+                <h2>Danger zone</h2>
+                <button id="removeButton">Delete recipe</button>
+            </div>
+        </div>
         <script src="functions.js"></script>
         <script src="edit-app.js"></script>
     </body>
