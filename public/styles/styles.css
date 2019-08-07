@@ -53,13 +53,26 @@ a {
 }
 
 .container__search-box {
-    border-radius: 23px;
-    font-size: 23px;
-    padding: 7px 7px 7px 45px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
     background-image: url(/images/search.png);
     background-position: 15px center;
     background-repeat: no-repeat;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    border-radius: 23px;
+    color: inherit;
+    font-family: inherit;
+    font-size: 23px;
+    padding: 7px 7px 7px 45px;
+    /* width: 100%; */
     margin-bottom: 30px;
+}
+
+.container__search-box:focus {
+    border: 1px solid rgba(0, 0, 0, 0.32);
+    box-shadow: none;
     outline: none;
 }
 
@@ -125,7 +138,7 @@ a {
     padding: 10px;
 }
 
-.textarea-text:focus {
+.container__edit-body:focus {
     border: 1px solid rgba(0, 0, 0, 0.32);
     box-shadow: none;
     outline: none;
@@ -205,6 +218,10 @@ input[type="checkbox"]:checked + span::after {
 #inputIngredient, #new-ingredient {
     font-size: 18px;
     padding: 6px;
+}
+
+#inputIngredient:focus {
+    outline: none;
 }
 
 #removeButton {
